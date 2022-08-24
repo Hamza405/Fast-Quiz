@@ -3,15 +3,11 @@ import React, { useState } from "react";
 //components
 import QuestionCard from "./components/QuestionCard";
 //api
-import { fetchQuestions, Difficulty, QuestionState } from "./services/api";
+import { fetchQuestions } from "./services/api";
+// types
+import { Difficulty, QuestionState, AnswerObject, TOTAL_QUESTIONS } from "./services/utils";
 
-const TOTAL_QUESTIONS = 10;
-type AnswerObject = {
-  question: string,
-  answer: string,
-  correct: boolean,
-  correctAnswer: string;
-};
+
 
 const App = () => {
   const [ loading, setLoading ] = useState( false );
@@ -55,7 +51,15 @@ const App = () => {
     }
   };
 
-  const nextQuestion = () => { };
+  const nextQuestion = () => {
+    //move to next question if not the last question
+    const nextQuestion = number + 1;
+    if( nextQuestion === TOTAL_QUESTIONS ) {
+      setgameOver( true );
+    } else {
+      setNumber( nextQuestion );
+    }
+  };
 
   return (
     <div className="App">
