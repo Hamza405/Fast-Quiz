@@ -70,7 +70,7 @@ const App = () => {
           onClick={
             startApp
           }>Start</button> }
-      { !gameOver && <p>Score:</p> }
+      { !gameOver && <p>Score: { score }</p> }
       { loading && <h4>Loading...</h4> }
       { !loading && !gameOver && (
         <QuestionCard
