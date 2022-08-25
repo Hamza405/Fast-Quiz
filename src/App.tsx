@@ -3,6 +3,7 @@ import React, { useState } from "react";
 //components
 import QuestionCard from "./components/QuestionCard";
 import Title from "./components/Title";
+import Button from "./components/Button";
 //api
 import { fetchQuestions } from "./services/api";
 // types
@@ -67,13 +68,10 @@ const App: React.FC = () => {
       className="p-6 m-w-full bg-fill flex flex-col justify-start items-center"
       style={ { backgroundImage: "url('/background.jpg')", height: '100vh' } }
     >
-      <Title />
+      <Title title="Fast Quiz" />
       { (
         gameOver
-        || userAnswers.length === TOTAL_QUESTIONS ) && <button className="start"
-          onClick={
-            startApp
-          }>Start</button> }
+        || userAnswers.length === TOTAL_QUESTIONS ) && <Button onClick={ startApp } buttonTitle="Start" /> }
       { !gameOver && <p>Score: { score }</p> }
       { loading && <h4>Loading...</h4> }
       { !loading && !gameOver && (
