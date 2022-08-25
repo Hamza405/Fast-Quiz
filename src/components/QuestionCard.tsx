@@ -18,7 +18,7 @@ const QuestionCard: FC<Props> = ( props ) => {
             <p className='text-center'>
                 Questions: { props.questionNumber } / { props.totalQuestions }
             </p>
-            <p className='text-center my-4' dangerouslySetInnerHTML={ { __html: props.question } } />
+            <p className='text-center my-2 sm:my-4' dangerouslySetInnerHTML={ { __html: props.question } } />
             <div>
                 { props.answers.map( answer => <Answer
                     clicked={ props.userAnswer?.answer
