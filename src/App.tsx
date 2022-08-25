@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import QuestionCard from "./components/QuestionCard";
 import Title from "./components/Title";
 import Button from "./components/Button";
+import Loading from "./components/Loading";
 //api
 import { fetchQuestions } from "./services/api";
 // types
@@ -72,8 +73,8 @@ const App: React.FC = () => {
       { (
         gameOver
         || userAnswers.length === TOTAL_QUESTIONS ) && <Button onClick={ startApp } buttonTitle="Start" /> }
-      { !gameOver && <p>Score: { score }</p> }
-      { loading && <h4>Loading...</h4> }
+      { !gameOver && !loading && <p>Score: { score }</p> }
+      { loading && <Loading /> }
       { !loading && !gameOver && (
         <QuestionCard
           questionNumber={ number + 1 }
