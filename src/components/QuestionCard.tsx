@@ -19,15 +19,20 @@ const QuestionCard: FC<Props> = ( props ) => {
                 Questions: { props.questionNumber } / { props.totalQuestions }
             </p>
             <p className='text-center my-4' dangerouslySetInnerHTML={ { __html: props.question } } />
-            {/* <div>
-                { props.answers.map( answer => ( <div key={ answer }>
-                    <button disabled={ !!props.userAnswer } value={ answer } onClick={ props.callback }>
-                        <span dangerouslySetInnerHTML={ { __html: answer } } />
-                    </button>
-                </div> ) ) }
-            </div> */}
             <div>
-                { props.answers.map( answer => <Answer answer={ answer } userAnswer={ !!props.userAnswer } onClick={ props.callback } /> ) }
+                { props.answers.map( answer => <Answer
+                    clicked={ props.userAnswer?.answer
+                        === answer }
+                    correct={ props.userAnswer?.correctAnswer
+                        === answer }
+                    answer={
+                        answer
+                    }
+                    userAnswer={ !!props.userAnswer
+                    }
+                    onClick={ props.callback
+                    }
+                /> ) }
             </div>
         </div>
     </Card> );
