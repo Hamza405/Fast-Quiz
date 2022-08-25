@@ -62,8 +62,8 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Quiz</h1>
+    <div>
+      <h1 className="text-3xl font-bold underline text-red-600">Quiz</h1>
       { (
         gameOver
         || userAnswers.length === TOTAL_QUESTIONS ) && <button className="start"
@@ -91,5 +91,13 @@ const App = () => {
     </div>
   );
 };
+
+// function App () {
+//   return (
+//     <h1 className="text-3xl font-bold underline text-red-600">
+//       Simple React Typescript Tailwind Sample
+//     </h1>
+//   );
+// }
 
 export default App;

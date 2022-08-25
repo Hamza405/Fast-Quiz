@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Card from './Card';
 import { AnswerObject } from "../services/utils";
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
 };
 
 const QuestionCard: FC<Props> = ( props ) => {
-    return ( <div>
+    return ( <Card>
         <p className='number'>
             Questions: { props.questionNumber } / { props.totalQuestions }
         </p>
@@ -23,6 +24,6 @@ const QuestionCard: FC<Props> = ( props ) => {
                 </button>
             </div> ) ) }
         </div>
-    </div> );
+    </Card> );
 };
 export default QuestionCard;
