@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 //components
 import QuestionCard from "./components/QuestionCard";
+import Title from "./components/Title";
 //api
 import { fetchQuestions } from "./services/api";
 // types
@@ -9,7 +10,7 @@ import { Difficulty, QuestionState, AnswerObject, TOTAL_QUESTIONS } from "./serv
 
 
 
-const App = () => {
+const App: React.FC = () => {
   const [ loading, setLoading ] = useState( false );
   const [ questions, setQuestions ] = useState<QuestionState[]>( [] );
   const [ number, setNumber ] = useState( 0 );
@@ -62,8 +63,11 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline text-red-600">Quiz</h1>
+    <div
+      className="p-6 m-w-full bg-fill flex flex-col justify-start items-center"
+      style={ { backgroundImage: "url('/background.jpg')", height: '100vh' } }
+    >
+      <Title />
       { (
         gameOver
         || userAnswers.length === TOTAL_QUESTIONS ) && <button className="start"
