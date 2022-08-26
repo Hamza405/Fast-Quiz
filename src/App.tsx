@@ -5,6 +5,7 @@ import QuestionCard from "./components/QuestionCard";
 import Title from "./components/Title";
 import Button from "./components/Button";
 import Loading from "./components/Loading";
+import Wrapper from "./components/Wrapper";
 //api
 import { fetchQuestions } from "./services/api";
 // types
@@ -65,10 +66,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div
-      className="p-6 m-w-full bg-fill flex flex-col justify-start items-center"
-      style={ { backgroundImage: "url('/background.jpg')", height: '100vh' } }
-    >
+    <Wrapper>
       <Title title="Fast Quiz" />
       { (
         gameOver
@@ -91,16 +89,8 @@ const App: React.FC = () => {
         && number !== TOTAL_QUESTIONS - 1
         && <Button buttonTitle="Next" onClick={ nextQuestion } />
       }
-    </div>
+    </Wrapper>
   );
 };
-
-// function App () {
-//   return (
-//     <h1 className="text-3xl font-bold underline text-red-600">
-//       Simple React Typescript Tailwind Sample
-//     </h1>
-//   );
-// }
 
 export default App;
