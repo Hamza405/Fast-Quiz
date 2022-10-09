@@ -17,6 +17,7 @@ import {
   TOTAL_QUESTIONS,
   Category,
 } from "./services/utils";
+import CategoriesSelector from "./components/CategoriesSelector";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ const App: React.FC = () => {
   const [number, setNumber] = useState(0);
   const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.EASY);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [category, setCategory] = useState<Category>();
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setgameOver] = useState(true);
@@ -31,10 +33,17 @@ const App: React.FC = () => {
   const difficultyHandler = (difficulty: Difficulty) => {
     setDifficulty(difficulty);
   };
+  const categoryHandler = (category: Category) => {
+    setCategory(category);
+  };
+
   const fetchCats = async () => {
+    setLoading(true);
     const res = await fetchCategories();
     setCategories(res);
+    setLoading(false);
   };
+
   useEffect(() => {
     fetchCats();
   }, []);
@@ -43,7 +52,11 @@ const App: React.FC = () => {
     setLoading(true);
     setgameOver(false);
 
-    const newQuestions = await fetchQuestions(TOTAL_QUESTIONS, difficulty);
+    const newQuestions = await fetchQuestions(
+      TOTAL_QUESTIONS,
+      difficulty,
+      category!
+    );
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
@@ -84,10 +97,16 @@ const App: React.FC = () => {
   return (
     <Wrapper>
       <Title title="Fast Quiz" />
-      <div className="mt-4 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
-        <DifficultySelector difficultyHandler={difficultyHandler} />
-      </div>
-      {(gameOver || userAnswers.length === TOTAL_QUESTIONS) && (
+      {(gameOver || userAnswers.length === TOTAL_QUESTIONS) && !loading && (
+        <div className="mt-4 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
+          <DifficultySelector difficultyHandler={difficultyHandler} />
+          <CategoriesSelector
+            categories={categories}
+            categoryHandler={categoryHandler}
+          />
+        </div>
+      )}
+      {(gameOver || userAnswers.length === TOTAL_QUESTIONS) && !loading && (
         <Button onClick={startApp} buttonTitle="Start" />
       )}
       {!gameOver && !loading && (
