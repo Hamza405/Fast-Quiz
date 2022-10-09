@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //components
 import QuestionCard from "./components/QuestionCard";
@@ -8,28 +8,42 @@ import Loading from "./components/Loading";
 import Wrapper from "./components/Wrapper";
 import DifficultySelector from "./components/DifficultySelector";
 //api
-import { fetchQuestions } from "./services/api";
+import { fetchQuestions, fetchCategories } from "./services/api";
 // types
 import {
   Difficulty,
   QuestionState,
   AnswerObject,
   TOTAL_QUESTIONS,
+  Category,
 } from "./services/utils";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<QuestionState[]>([]);
   const [number, setNumber] = useState(0);
+  const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.EASY);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setgameOver] = useState(true);
+
+  const difficultyHandler = (difficulty: Difficulty) => {
+    setDifficulty(difficulty);
+  };
+  const fetchCats = async () => {
+    const res = await fetchCategories();
+    setCategories(res);
+  };
+  useEffect(() => {
+    fetchCats();
+  }, []);
 
   const startApp = async () => {
     setLoading(true);
     setgameOver(false);
 
-    const newQuestions = await fetchQuestions(TOTAL_QUESTIONS, Difficulty.EASY);
+    const newQuestions = await fetchQuestions(TOTAL_QUESTIONS, difficulty);
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
@@ -71,10 +85,8 @@ const App: React.FC = () => {
     <Wrapper>
       <Title title="Fast Quiz" />
       <div className="mt-4 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
-        <DifficultySelector />
-        <DifficultySelector />
+        <DifficultySelector difficultyHandler={difficultyHandler} />
       </div>
-
       {(gameOver || userAnswers.length === TOTAL_QUESTIONS) && (
         <Button onClick={startApp} buttonTitle="Start" />
       )}

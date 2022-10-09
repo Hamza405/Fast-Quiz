@@ -5,6 +5,11 @@ export enum Difficulty {
 
 }
 
+export type Category = {
+    id:number,
+    name:string
+}
+
 export type Question = {
     category: string,
     correct_answer: string,
