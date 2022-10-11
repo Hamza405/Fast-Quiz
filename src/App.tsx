@@ -104,7 +104,7 @@ const App: React.FC = () => {
       <Title title="Fast Quiz" />
       {(gameOver || userAnswers.length === TOTAL_QUESTIONS) && !loading && (
         <>
-          <div className="mt-4 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
+          <div className="mt-10 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
             <DifficultySelector
               difficultyHandler={difficultyHandler}
               isOpenHandler={isDropdownOpenHandler}
@@ -138,7 +138,12 @@ const App: React.FC = () => {
         !loading &&
         userAnswers.length === number + 1 &&
         number !== TOTAL_QUESTIONS - 1 && (
-          <Button buttonTitle="Next" onClick={nextQuestion} />
+          <motion.div
+            initial={{ y: "100px" }}
+            animate={{ y: "0", transition: { duration: 0.3 } }}
+          >
+            <Button buttonTitle="Next" onClick={nextQuestion} />
+          </motion.div>
         )}
     </Wrapper>
   );
