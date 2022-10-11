@@ -138,7 +138,7 @@ const App: React.FC = () => {
               initial={{ scale: 0 }}
               animate={{
                 scale: 1,
-                y: isDropdownOpen ? "1.5rem" : "0px",
+                y: isDropdownOpen ? 15 : 0,
                 transition: { duration: 0.3 },
               }}
             >
@@ -161,11 +161,11 @@ const App: React.FC = () => {
               ? !loading
                 ? userAnswers.length === number + 1
                   ? number !== TOTAL_QUESTIONS - 1
-                    ? "-0.5rem"
-                    : "0"
-                  : "0"
-                : "0"
-              : "0",
+                    ? -5
+                    : 0
+                  : 0
+                : 0
+              : 0,
           }}
         >
           <QuestionCard

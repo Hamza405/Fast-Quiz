@@ -26,6 +26,7 @@ const QuestionCard: FC<Props> = (props) => {
         <div>
           {props.answers.map((answer) => (
             <Answer
+              key={answer}
               clicked={props.userAnswer?.answer === answer}
               correct={props.userAnswer?.correctAnswer === answer}
               answer={answer}
