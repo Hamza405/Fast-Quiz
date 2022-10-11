@@ -1,4 +1,5 @@
 import { FC, useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import { Category } from "../services/utils";
 
@@ -25,7 +26,15 @@ const CategoriesSelector: FC<{
   }, [catsShow]);
 
   return (
-    <div className="flex flex-col" ref={wrapperRef}>
+    <motion.div
+      initial={{ x: 1000 }}
+      animate={{
+        x: 0,
+        transition: { duration: 0.8 },
+      }}
+      className="flex flex-col"
+      ref={wrapperRef}
+    >
       <button
         id="dropdownDefault"
         data-dropdown-toggle="dropdown"
@@ -78,7 +87,7 @@ const CategoriesSelector: FC<{
           ))}
         </ul>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

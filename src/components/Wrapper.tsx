@@ -5,7 +5,10 @@ const Wrapper: FC<PropsWithChildren> = (props) => {
   return (
     <div
       className="p-2 sm:p-6 m-w-full bg-cover flex flex-col justify-start items-center"
-      style={{ backgroundImage: `url(${backgroundImage})`, height: "100vh" }}
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        height: "100vh",
+      }}
     >
       {props.children}
     </div>

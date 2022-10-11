@@ -31,6 +31,7 @@ const App: React.FC = () => {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
+  const [finishGame, setFinishGame] = useState(false);
 
   const difficultyHandler = (difficulty: Difficulty) => {
     setDifficulty(difficulty);
@@ -68,10 +69,13 @@ const App: React.FC = () => {
     setNumber(0);
     setLoading(false);
   };
-  console.log(questions);
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
+      if (number + 1 === TOTAL_QUESTIONS) {
+        setFinishGame(true);
+        console.log("Finish Game");
+      }
       // store answer
       const answer = e.currentTarget.value;
       // check answer
@@ -99,40 +103,80 @@ const App: React.FC = () => {
     }
   };
 
+  const FinishGameHandler = () => {
+    setGameOver(true);
+    setFinishGame(false);
+  };
+
   return (
     <Wrapper>
       <Title title="Fast Quiz" />
-      {(gameOver || userAnswers.length === TOTAL_QUESTIONS) && !loading && (
-        <>
-          <div className="mt-10 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
-            <DifficultySelector
-              difficultyHandler={difficultyHandler}
-              isOpenHandler={isDropdownOpenHandler}
-            />
-            <CategoriesSelector
-              categories={categories}
-              categoryHandler={categoryHandler}
-              isOpenHandler={isDropdownOpenHandler}
-            />
-          </div>
-          <motion.div animate={{ y: isDropdownOpen ? "1.5rem" : "0px" }}>
-            <Button onClick={startApp} buttonTitle="Start" />
-          </motion.div>
-        </>
+      {finishGame && (
+        <motion.div
+          initial={{ opacity: 0, scale: 1 }}
+          animate={{ opacity: 1, scale: 1, transition: { duration: 0.8 } }}
+        >
+          <Button onClick={FinishGameHandler} buttonTitle="Play Again" />
+        </motion.div>
       )}
+      {!finishGame &&
+        (gameOver || userAnswers.length === TOTAL_QUESTIONS) &&
+        !loading && (
+          <>
+            <div className="mt-10 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
+              <DifficultySelector
+                difficultyHandler={difficultyHandler}
+                isOpenHandler={isDropdownOpenHandler}
+              />
+              <CategoriesSelector
+                categories={categories}
+                categoryHandler={categoryHandler}
+                isOpenHandler={isDropdownOpenHandler}
+              />
+            </div>
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{
+                scale: 1,
+                y: isDropdownOpen ? "1.5rem" : "0px",
+                transition: { duration: 0.3 },
+              }}
+            >
+              <Button onClick={startApp} buttonTitle="Start" />
+            </motion.div>
+          </>
+        )}
       {!gameOver && !loading && (
-        <p className="text-xl text-white">Score: {score}</p>
+        <div className="border bg-gray-200 rounded-lg bg-opacity-70 p-2 my-2 ">
+          <p className="text-xl text-cyan-800 font-bold">Score: {score}</p>
+        </div>
       )}
       {loading && <Loading />}
       {!loading && !gameOver && (
-        <QuestionCard
-          questionNumber={number + 1}
-          totalQuestions={TOTAL_QUESTIONS}
-          question={questions[number].question}
-          answers={questions[number].answers}
-          userAnswer={userAnswers ? userAnswers[number] : undefined}
-          callback={checkAnswer}
-        />
+        <motion.div
+          className="m-auto"
+          animate={{
+            transition: { duration: 0.2 },
+            y: !gameOver
+              ? !loading
+                ? userAnswers.length === number + 1
+                  ? number !== TOTAL_QUESTIONS - 1
+                    ? "-0.5rem"
+                    : "0"
+                  : "0"
+                : "0"
+              : "0",
+          }}
+        >
+          <QuestionCard
+            questionNumber={number + 1}
+            totalQuestions={TOTAL_QUESTIONS}
+            question={questions[number].question}
+            answers={questions[number].answers}
+            userAnswer={userAnswers ? userAnswers[number] : undefined}
+            callback={checkAnswer}
+          />
+        </motion.div>
       )}
       {!gameOver &&
         !loading &&

@@ -26,14 +26,14 @@ const Answer: FC<{
       }}
       className={`my-1 sm:my-2 m-auto ${
         !userAnswer
-          ? "bg-gray-200"
+          ? "bg-gray-200 hover:bg-gray-300"
           : correct
           ? "bg-green-300"
           : clicked
           ? "bg-red-300"
           : "bg-gray-200"
       }  rounded-lg
-				border border-gray-800 shadow-md hover:bg-gray-300`}
+				border border-gray-800 shadow-md `}
     >
       <button
         disabled={!!userAnswer}
