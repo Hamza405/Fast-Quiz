@@ -1,16 +1,27 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
+import useOnClickOutside from "../hooks/useOnClickOutside";
 import { Difficulty } from "../services/utils";
 
 const DifficultySelector: FC<{
   difficultyHandler: (difficulty: Difficulty) => void;
-}> = ({ difficultyHandler }) => {
+  isOpenHandler: (isOpen: boolean) => void;
+}> = ({ difficultyHandler, isOpenHandler }) => {
   const [firstTime, setFirstTime] = useState(false);
-  const [difShow, setDifShow] = useState(true);
+  const [difShow, setDifShow] = useState(false);
   const [difficulty, setDifficulty] = useState(Difficulty.EASY);
+
+  const wrapperRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  useOnClickOutside(wrapperRef, () => {
+    setDifShow(false);
+  });
 
   useEffect(() => {
     difficultyHandler(difficulty);
   }, [difficulty]);
+
+  useEffect(() => {
+    isOpenHandler(difShow);
+  }, [difShow]);
   return (
     <div className="flex flex-col">
       <button
@@ -39,9 +50,10 @@ const DifficultySelector: FC<{
         </svg>
       </button>
       <div
+        ref={wrapperRef}
         id="dropdown"
         className={`${
-          difShow && "hidden"
+          !difShow && "hidden"
         } mt-2 z-10 w-32 md:w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 animate-Entering`}
       >
         <ul

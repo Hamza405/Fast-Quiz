@@ -1,17 +1,28 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
+import useOnClickOutside from "../hooks/useOnClickOutside";
 import { Category } from "../services/utils";
 
 const CategoriesSelector: FC<{
   categories: Category[];
-  categoryHandler: (cateogry: Category) => void;
-}> = ({ categories, categoryHandler }) => {
+  categoryHandler: (category: Category) => void;
+  isOpenHandler: (isOpen: boolean) => void;
+}> = ({ categories, categoryHandler, isOpenHandler }) => {
   const [firstTime, setFirstTime] = useState(false);
   const [catsShow, setCatsShow] = useState(false);
   const [category, setCategory] = useState<Category>(categories[0]);
 
+  const wrapperRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  useOnClickOutside(wrapperRef, () => {
+    setCatsShow(false);
+  });
+
   useEffect(() => {
     categoryHandler(category);
   }, [category]);
+
+  useEffect(() => {
+    isOpenHandler(catsShow);
+  }, [catsShow]);
 
   return (
     <div className="flex flex-col">
@@ -41,6 +52,7 @@ const CategoriesSelector: FC<{
         </svg>
       </button>
       <div
+        ref={wrapperRef}
         id="dropdown"
         className={`${
           !catsShow && "hidden"

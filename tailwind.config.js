@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       animation: {
         Leaving: "leaving 100ms ease-in-out",
-        Entering: "entering 150ms ease-in-out",
+        Entering: "entering 250ms ease-in-out",
       },
       keyframes: {
         entering: {

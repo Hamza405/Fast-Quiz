@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 //components
 import QuestionCard from "./components/QuestionCard";
@@ -26,15 +27,19 @@ const App: React.FC = () => {
   const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.EASY);
   const [categories, setCategories] = useState<Category[]>([]);
   const [category, setCategory] = useState<Category>();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
-  const [gameOver, setgameOver] = useState(true);
+  const [gameOver, setGameOver] = useState(true);
 
   const difficultyHandler = (difficulty: Difficulty) => {
     setDifficulty(difficulty);
   };
   const categoryHandler = (category: Category) => {
     setCategory(category);
+  };
+  const isDropdownOpenHandler = (isOpen: boolean) => {
+    setIsDropdownOpen(isOpen);
   };
 
   const fetchCats = async () => {
@@ -50,7 +55,7 @@ const App: React.FC = () => {
 
   const startApp = async () => {
     setLoading(true);
-    setgameOver(false);
+    setGameOver(false);
 
     const newQuestions = await fetchQuestions(
       TOTAL_QUESTIONS,
@@ -88,7 +93,7 @@ const App: React.FC = () => {
     //move to next question if not the last question
     const nextQuestion = number + 1;
     if (nextQuestion === TOTAL_QUESTIONS) {
-      setgameOver(true);
+      setGameOver(true);
     } else {
       setNumber(nextQuestion);
     }
@@ -98,16 +103,22 @@ const App: React.FC = () => {
     <Wrapper>
       <Title title="Fast Quiz" />
       {(gameOver || userAnswers.length === TOTAL_QUESTIONS) && !loading && (
-        <div className="mt-4 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
-          <DifficultySelector difficultyHandler={difficultyHandler} />
-          <CategoriesSelector
-            categories={categories}
-            categoryHandler={categoryHandler}
-          />
-        </div>
-      )}
-      {(gameOver || userAnswers.length === TOTAL_QUESTIONS) && !loading && (
-        <Button onClick={startApp} buttonTitle="Start" />
+        <>
+          <div className="mt-4 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
+            <DifficultySelector
+              difficultyHandler={difficultyHandler}
+              isOpenHandler={isDropdownOpenHandler}
+            />
+            <CategoriesSelector
+              categories={categories}
+              categoryHandler={categoryHandler}
+              isOpenHandler={isDropdownOpenHandler}
+            />
+          </div>
+          <motion.div animate={{ y: isDropdownOpen ? "1.5rem" : "0px" }}>
+            <Button onClick={startApp} buttonTitle="Start" />
+          </motion.div>
+        </>
       )}
       {!gameOver && !loading && (
         <p className="text-xl text-white">Score: {score}</p>
