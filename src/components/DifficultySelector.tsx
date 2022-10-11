@@ -23,7 +23,7 @@ const DifficultySelector: FC<{
     isOpenHandler(difShow);
   }, [difShow]);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" ref={wrapperRef}>
       <button
         id="dropdownDefault"
         data-dropdown-toggle="dropdown"
@@ -50,7 +50,6 @@ const DifficultySelector: FC<{
         </svg>
       </button>
       <div
-        ref={wrapperRef}
         id="dropdown"
         className={`${
           !difShow && "hidden"
