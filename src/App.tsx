@@ -148,7 +148,9 @@ const App: React.FC = () => {
         )}
       {!gameOver && !loading && (
         <div className="border bg-gray-200 rounded-lg bg-opacity-70 p-2 my-2 ">
-          <p className="text-xl text-cyan-800 font-bold">Score: {score}</p>
+          <p className="text-xl text-cyan-800 font-bold">
+            Score: {score} / {TOTAL_QUESTIONS}
+          </p>
         </div>
       )}
       {loading && <Loading />}
