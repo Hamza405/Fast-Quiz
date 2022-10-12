@@ -15,7 +15,7 @@ type Props = {
 const QuestionCard: FC<Props> = (props) => {
   return (
     <Card>
-      <div>
+      <div className="p-2 sm:p-4">
         <p className="text-center text-white">
           Questions: {props.questionNumber} / {props.totalQuestions}
         </p>

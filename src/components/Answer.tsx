@@ -24,7 +24,7 @@ const Answer: FC<{
           duration: 0.3,
         },
       }}
-      className={`my-1 sm:my-2 m-auto ${
+      className={`my-5 sm:my-4 md:my-3  ${
         !userAnswer
           ? "bg-gray-200 hover:bg-gray-300"
           : correct
@@ -39,7 +39,7 @@ const Answer: FC<{
         disabled={!!userAnswer}
         onClick={onClick}
         value={answer}
-        className="p-1 sm:p-2 text-center w-full"
+        className="p-2 sm:p-2 text-center w-full"
       >
         <p
           className="text-center"
