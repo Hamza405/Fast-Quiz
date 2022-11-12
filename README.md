@@ -1,7 +1,8 @@
 # Getting Started
 
-You can try this game online <a href="https://fast-quiz-rho.vercel.app" target="_blank" rel="noopener noreferrer">Click here</a>.
 Clone the repo and Enjoy with exp.
+
+You can try this game online <a href="https://fast-quiz-rho.vercel.app" target="_blank" rel="noopener noreferrer">Click here</a>.
 
 ## Available Scripts
 
