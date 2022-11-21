@@ -30,4 +30,8 @@ export type AnswerObject = {
     correctAnswer: string;
 };
 
+export type QuestionCommand = {
+    amount: number, difficulty: Difficulty,category:Category
+}
+
 export const shuffleArray = ( array: any[] ) => [ ...array ].sort( () => Math.random() - 0.5 );

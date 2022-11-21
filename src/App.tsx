@@ -13,14 +13,29 @@ import { fetchQuestions, fetchCategories } from "./services/api";
 // types
 import {
   Difficulty,
+  QuestionCommand,
   QuestionState,
   AnswerObject,
   TOTAL_QUESTIONS,
   Category,
 } from "./services/utils";
 import CategoriesSelector from "./components/CategoriesSelector";
+import useHttp from "./hooks/useHttp";
 
 const App: React.FC = () => {
+  const {
+    sendRequest: fetchCats,
+    status: catsStatus,
+    data: cats,
+    error: catsError,
+  } = useHttp(fetchCategories);
+  const {
+    sendRequest: getQuestion,
+    status: questionsStatus,
+    data: fetchedQuestions,
+    error: questionsError,
+  } = useHttp(fetchQuestions);
+
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<QuestionState[]>([]);
   const [number, setNumber] = useState(0);
@@ -43,31 +58,56 @@ const App: React.FC = () => {
     setIsDropdownOpen(isOpen);
   };
 
-  const fetchCats = async () => {
-    setLoading(true);
-    const res = await fetchCategories();
-    setCategories(res);
-    setLoading(false);
-  };
-
   useEffect(() => {
     fetchCats();
   }, []);
 
+  useEffect(() => {
+    if (catsStatus === "completed" && !catsError && cats) {
+      setLoading(false);
+      setCategories(cats);
+    }
+    if (catsStatus === "pending") {
+      setLoading(true);
+    }
+    if (catsStatus === "completed" && catsError) {
+      console.log(catsError);
+      setLoading(false);
+    }
+  }, [catsStatus, cats, catsError]);
+
+  useEffect(() => {
+    if (
+      questionsStatus === "completed" &&
+      !questionsError &&
+      fetchedQuestions
+    ) {
+      console.log(fetchedQuestions);
+      setQuestions(fetchedQuestions);
+      setScore(0);
+      setUserAnswers([]);
+      setNumber(0);
+      setLoading(false);
+    }
+
+    if (questionsStatus === "pending") setLoading(true);
+
+    if (questionsStatus === "completed" && questionsError) {
+      setLoading(false);
+      console.log(questionsError);
+    }
+  }, [questionsStatus, questionsError, fetchedQuestions]);
+
+  // Get The questions and start the game
   const startApp = async () => {
     setLoading(true);
     setGameOver(false);
-
-    const newQuestions = await fetchQuestions(
-      TOTAL_QUESTIONS,
+    const command: QuestionCommand = {
+      amount: TOTAL_QUESTIONS,
       difficulty,
-      category!
-    );
-    setQuestions(newQuestions);
-    setScore(0);
-    setUserAnswers([]);
-    setNumber(0);
-    setLoading(false);
+      category: category!,
+    };
+    getQuestion(command);
   };
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
