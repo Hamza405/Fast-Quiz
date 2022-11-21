@@ -1,8 +1,9 @@
 import { shuffleArray } from "./utils";
-import { Difficulty, Question,Category } from "./utils";
+import { QuestionCommand, Question,Category } from "./utils";
 
-export const fetchQuestions = async ( amount: number, difficulty: Difficulty,category:Category ) => {
-    const endpoint = `https://opentdb.com/api.php?amount=${ amount }&difficulty=${ difficulty }&type=multiple&category=${category.id}`;
+
+export const fetchQuestions = async (obj:QuestionCommand ) => {
+    const endpoint = `https://opentdb.com/api.php?amount=${ obj.amount }&difficulty=${ obj.difficulty }&type=multiple&category=${obj.category.id}`;
     console.log(endpoint)
     const data = await ( await fetch( endpoint ) ).json();
     return data.results.map( ( i: Question ) => ( {
