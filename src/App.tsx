@@ -70,6 +70,7 @@ const App: React.FC = () => {
     fetchCats();
   }, []);
 
+  // handle Categories Status
   useEffect(() => {
     if (catsStatus === "completed" && !catsError && cats) {
       setLoading(false);
@@ -84,6 +85,7 @@ const App: React.FC = () => {
     }
   }, [catsStatus, cats, catsError]);
 
+  // Handle Question status
   useEffect(() => {
     if (
       questionsStatus === "completed" &&
