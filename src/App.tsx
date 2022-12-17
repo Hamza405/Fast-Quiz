@@ -162,12 +162,12 @@ const App: React.FC = () => {
     <Wrapper>
       {TitleComponent}
       {finishGame && (
-        <motion.div
-          initial={{ opacity: 0, scale: 1 }}
-          animate={{ opacity: 1, scale: 1, transition: { duration: 0.8 } }}
-        >
-          <Button onClick={FinishGameHandler} buttonTitle="Play Again" />
-        </motion.div>
+        <Button
+          isDropDown={isDropdownOpen}
+          type="again"
+          onClick={FinishGameHandler}
+          buttonTitle="Play Again"
+        />
       )}
       {!finishGame &&
         (gameOver || userAnswers.length === TOTAL_QUESTIONS) &&
@@ -184,16 +184,12 @@ const App: React.FC = () => {
                 isOpenHandler={isDropdownOpenHandler}
               />
             </div>
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{
-                scale: 1,
-                y: isDropdownOpen ? 15 : 0,
-                transition: { duration: 0.3 },
-              }}
-            >
-              <Button onClick={startApp} buttonTitle="Start" />
-            </motion.div>
+            <Button
+              isDropDown={isDropdownOpen}
+              type="start"
+              onClick={startApp}
+              buttonTitle="Start"
+            />
           </>
         )}
       {!gameOver && !loading && ScoreComponent}
@@ -228,12 +224,12 @@ const App: React.FC = () => {
         !loading &&
         userAnswers.length === number + 1 &&
         number !== TOTAL_QUESTIONS - 1 && (
-          <motion.div
-            initial={{ y: "100px" }}
-            animate={{ y: "0", transition: { duration: 0.3 } }}
-          >
-            <Button buttonTitle="Next" onClick={nextQuestion} />
-          </motion.div>
+          <Button
+            isDropDown={isDropdownOpen}
+            type="next"
+            buttonTitle="Next"
+            onClick={nextQuestion}
+          />
         )}
     </Wrapper>
   );
