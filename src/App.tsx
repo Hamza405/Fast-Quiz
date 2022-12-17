@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 //components
@@ -17,10 +17,12 @@ import {
   QuestionState,
   AnswerObject,
   TOTAL_QUESTIONS,
+  TITLE,
   Category,
 } from "./services/utils";
 import CategoriesSelector from "./components/CategoriesSelector";
 import useHttp from "./hooks/useHttp";
+import Score from "./components/Score";
 
 const App: React.FC = () => {
   const {
@@ -47,6 +49,12 @@ const App: React.FC = () => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
   const [finishGame, setFinishGame] = useState(false);
+
+  const TitleComponent = useMemo(() => <Title title={TITLE} />, []);
+  const ScoreComponent = useMemo(
+    () => <Score score={score} totalQuestions={TOTAL_QUESTIONS} />,
+    [score]
+  );
 
   const difficultyHandler = (difficulty: Difficulty) => {
     setDifficulty(difficulty);
@@ -150,7 +158,7 @@ const App: React.FC = () => {
 
   return (
     <Wrapper>
-      <Title title="Fast Quiz" />
+      {TitleComponent}
       {finishGame && (
         <motion.div
           initial={{ opacity: 0, scale: 1 }}
@@ -186,13 +194,7 @@ const App: React.FC = () => {
             </motion.div>
           </>
         )}
-      {!gameOver && !loading && (
-        <div className="border bg-gray-200 rounded-lg bg-opacity-70 p-2 my-2 ">
-          <p className="text-xl text-cyan-800 font-bold">
-            Score: {score} / {TOTAL_QUESTIONS}
-          </p>
-        </div>
-      )}
+      {!gameOver && !loading && ScoreComponent}
       {loading && <Loading />}
       {!loading && !gameOver && (
         <motion.div
