@@ -37,11 +37,12 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [gameOver, setGameOver] = useState(true);
   const [finishGame, setFinishGame] = useState(false);
 
+  // Get the categories
   useEffect(() => {
     fetchCats();
   }, []);
 
-  // handle Categories Status
+  // handle Categories request Status
   useEffect(() => {
     if (catsStatus === "completed" && !catsError && cats) {
       setLoading(false);
@@ -56,7 +57,7 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [catsStatus, cats, catsError]);
 
-  // Handle Question status
+  // Handle Question request status
   useEffect(() => {
     if (
       questionsStatus === "completed" &&
@@ -79,6 +80,7 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [questionsStatus, questionsError, fetchedQuestions]);
 
+  // Fetch questions and start the game
   const startApp = async () => {
     setLoading(true);
     setGameOver(false);
@@ -90,6 +92,7 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
     getQuestion(command);
   };
 
+  // Check user answers
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
       if (number + 1 === TOTAL_QUESTIONS) {
@@ -113,8 +116,8 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  //move to next question if not the last question
   const nextQuestion = () => {
-    //move to next question if not the last question
     const nextQuestion = number + 1;
     if (nextQuestion === TOTAL_QUESTIONS) {
       setGameOver(true);
@@ -123,6 +126,7 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  // End the game
   const finishGameHandler = () => {
     setGameOver(true);
     setFinishGame(false);
