@@ -20,7 +20,6 @@ import {
   TITLE,
   Category,
 } from "./services/utils";
-import CategoriesSelector from "./components/CategoriesSelector";
 import useHttp from "./hooks/useHttp";
 import Score from "./components/Score";
 import OptionSelector from "./components/OptionSelector";
