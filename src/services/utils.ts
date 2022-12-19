@@ -22,6 +22,7 @@ export type Question = {
 export type QuestionState = Question & { answers: string[]; };
 
 export const TOTAL_QUESTIONS = 10;
+export const TITLE = "Fast Quiz";
 
 export type AnswerObject = {
     question: string,
