@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState, useEffect } from "react";
 import useHttp from "../hooks/useHttp";
-import { fetchQuestions } from "../services/api";
+import { fetchQuestions, fetchCategories } from "../services/api";
 import {
   Difficulty,
   QuestionState,
@@ -12,6 +12,12 @@ import {
 import { AppContext, contextType } from "./AppContext";
 
 const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const {
+    sendRequest: fetchCats,
+    status: catsStatus,
+    data: cats,
+    error: catsError,
+  } = useHttp(fetchCategories);
   const {
     sendRequest: getQuestion,
     status: questionsStatus,
@@ -30,6 +36,25 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
   const [finishGame, setFinishGame] = useState(false);
+
+  useEffect(() => {
+    fetchCats();
+  }, []);
+
+  // handle Categories Status
+  useEffect(() => {
+    if (catsStatus === "completed" && !catsError && cats) {
+      setLoading(false);
+      setCategories(cats);
+    }
+    if (catsStatus === "pending") {
+      setLoading(true);
+    }
+    if (catsStatus === "completed" && catsError) {
+      console.log(catsError);
+      setLoading(false);
+    }
+  }, [catsStatus, cats, catsError]);
 
   // Handle Question status
   useEffect(() => {
@@ -113,14 +138,6 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setIsDropdownOpen(isOpen);
   };
 
-  const setCategoriesHandler = (cats: Category[]) => {
-    setCategories(cats);
-  };
-
-  const setLoadingHandler = (loading: boolean) => {
-    setLoading(loading);
-  };
-
   const context: contextType = {
     loading,
     questions,
@@ -140,8 +157,6 @@ const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
     difficultyHandler,
     categoryHandler,
     isDropdownOpenHandler,
-    setCategoriesHandler,
-    setLoadingHandler,
   };
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
 };

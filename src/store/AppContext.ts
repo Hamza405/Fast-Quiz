@@ -20,8 +20,6 @@ export interface contextType  {
     difficultyHandler:(difficulty:Difficulty)=>void;
     categoryHandler:(category: Category)=>void;
     isDropdownOpenHandler:(isOpen:boolean)=>void;
-    setCategoriesHandler:(cats:Category[])=>void;
-    setLoadingHandler:(loading:boolean)=>void
 }
 
 export const AppContext = createContext<contextType | null>(null)
