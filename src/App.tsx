@@ -120,7 +120,7 @@ const App: React.FC = () => {
   }, [questionsStatus, questionsError, fetchedQuestions]);
 
   // Get The questions and start the game
-  const startApp = async () => {
+  const startApp = async (getQuestion: (command: QuestionCommand) => void) => {
     setLoading(true);
     setGameOver(false);
     const command: QuestionCommand = {
@@ -188,7 +188,7 @@ const App: React.FC = () => {
             <Button
               isDropDown={isDropdownOpen}
               type="start"
-              onClick={startApp}
+              onClick={() => {}}
               buttonTitle="Start"
             />
           </>

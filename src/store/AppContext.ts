@@ -1,23 +1,6 @@
 import React,{ createContext } from "react";
 import { Difficulty, QuestionState,Category, AnswerObject } from "../services/utils";
 
-// const AppContext = createContext({
-//     loading : false,
-//     questions : [],
-//     number:0,
-//     difficulty:Difficulty.EASY,
-//     categories:[],
-//     category:{},
-//     userAnswers:[],
-//     score:0,
-//     gameOver:true,
-//     finishGame:false,
-//     startGame:()=>{},
-//     checkAnswer:(e: React.MouseEvent<HTMLButtonElement>)=>{},
-//     nextQuestion:()=>{},
-//     finishGameAction:()=>{}
-// })
-
 export interface contextType  {
     loading:boolean;
     questions:QuestionState[];
@@ -29,7 +12,16 @@ export interface contextType  {
     score:number;
     gameOver:boolean;
     finishGame:boolean;
-    isDropdownOpen:boolean
+    isDropdownOpen:boolean;
+    startApp:  ()=>void;
+    checkAnswer:(e: React.MouseEvent<HTMLButtonElement>)=>void;
+    nextQuestion:()=>void;
+    finishGameHandler:()=>void;
+    difficultyHandler:(difficulty:Difficulty)=>void;
+    categoryHandler:(category: Category)=>void;
+    isDropdownOpenHandler:(isOpen:boolean)=>void;
+    setCategoriesHandler:(cats:Category[])=>void;
+    setLoadingHandler:(loading:boolean)=>void
 }
 
 export const AppContext = createContext<contextType | null>(null)
