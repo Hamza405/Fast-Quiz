@@ -15,7 +15,6 @@ const App: React.FC = () => {
   const {
     loading,
     number,
-    categories,
     isDropdownOpen,
     userAnswers,
     score,
@@ -30,10 +29,6 @@ const App: React.FC = () => {
   const ScoreComponent = useMemo(
     () => <Score score={score} totalQuestions={TOTAL_QUESTIONS} />,
     [score]
-  );
-  const OptionSelectorComponent = useMemo(
-    () => <OptionSelector />,
-    [categories]
   );
 
   return (
@@ -51,7 +46,7 @@ const App: React.FC = () => {
         (gameOver || userAnswers.length === TOTAL_QUESTIONS) &&
         !loading && (
           <>
-            {OptionSelectorComponent}
+            <OptionSelector />
             <Button
               isDropDown={isDropdownOpen}
               type="start"
