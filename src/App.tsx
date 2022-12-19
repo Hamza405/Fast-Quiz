@@ -23,6 +23,7 @@ import {
 import CategoriesSelector from "./components/CategoriesSelector";
 import useHttp from "./hooks/useHttp";
 import Score from "./components/Score";
+import OptionSelector from "./components/OptionSelector";
 
 const App: React.FC = () => {
   const {
@@ -50,12 +51,6 @@ const App: React.FC = () => {
   const [gameOver, setGameOver] = useState(true);
   const [finishGame, setFinishGame] = useState(false);
 
-  const TitleComponent = useMemo(() => <Title title={TITLE} />, []);
-  const ScoreComponent = useMemo(
-    () => <Score score={score} totalQuestions={TOTAL_QUESTIONS} />,
-    [score]
-  );
-
   const difficultyHandler = (difficulty: Difficulty) => {
     setDifficulty(difficulty);
   };
@@ -65,6 +60,23 @@ const App: React.FC = () => {
   const isDropdownOpenHandler = (isOpen: boolean) => {
     setIsDropdownOpen(isOpen);
   };
+
+  const TitleComponent = useMemo(() => <Title title={TITLE} />, []);
+  const ScoreComponent = useMemo(
+    () => <Score score={score} totalQuestions={TOTAL_QUESTIONS} />,
+    [score]
+  );
+  const OptionSelectorComponent = useMemo(
+    () => (
+      <OptionSelector
+        difficultyHandler={difficultyHandler}
+        isDropdownOpenHandler={isDropdownOpenHandler}
+        categories={categories}
+        categoryHandler={categoryHandler}
+      />
+    ),
+    [categories]
+  );
 
   useEffect(() => {
     fetchCats();
@@ -173,17 +185,7 @@ const App: React.FC = () => {
         (gameOver || userAnswers.length === TOTAL_QUESTIONS) &&
         !loading && (
           <>
-            <div className="mt-10 mb-4 flex justify-between w-[85%] sm:w-1/2 md:w-1/2 xl:w-1/3">
-              <DifficultySelector
-                difficultyHandler={difficultyHandler}
-                isOpenHandler={isDropdownOpenHandler}
-              />
-              <CategoriesSelector
-                categories={categories}
-                categoryHandler={categoryHandler}
-                isOpenHandler={isDropdownOpenHandler}
-              />
-            </div>
+            {OptionSelectorComponent}
             <Button
               isDropDown={isDropdownOpen}
               type="start"
